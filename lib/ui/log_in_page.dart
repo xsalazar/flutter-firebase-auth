@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_auth/ui/email_page.dart';
 import 'package:flutter_firebase_auth/ui/logged_in_page.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -19,10 +20,9 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
-  FirebaseUser _currentUser;
-
   @override
   void initState () {
+    super.initState();
     // Enabled persistent log-ins by checking the Firebase Auth instance for previously logged in users
     _auth.currentUser().then((user) {
       if (user != null) {
@@ -54,7 +54,7 @@ class _LogInPageState extends State<LogInPage> {
               icon: Icon(Icons.email),
               label: Text('Sign in with email'),
               onPressed: () {
-                _signInWithEmail();
+                _pushPage(context, EmailPage(firebaseAuth: _auth));
               },
             )
           ],
@@ -81,10 +81,6 @@ class _LogInPageState extends State<LogInPage> {
     if (user != null) {
       _pushPage(context, LoggedInPage(firebaseAuth: _auth ,firebaseUser: user));
     }
-  }
-
-  void _signInWithEmail() {
-
   }
 }
 
